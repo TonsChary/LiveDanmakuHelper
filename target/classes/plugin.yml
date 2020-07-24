@@ -1,0 +1,9 @@
+name: Danmakuhelper
+version: 1.0-SNAPSHOT
+main: com.tonschary.bili.danmakuhelper.Danmakuhelper
+api-version: 1.16
+
+commands:
+  roominfo:
+    description: 查询目标房间信息
+    usage:

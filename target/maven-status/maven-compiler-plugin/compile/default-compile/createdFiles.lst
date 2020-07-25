@@ -1,2 +1,5 @@
-com\tonschary\bili\danmakuhelper\HttpTool\RequestRoomInfo.class
+com\tonschary\bili\danmakuhelper\Gson\Bean\RoomInfoBean.class
 com\tonschary\bili\danmakuhelper\Danmakuhelper.class
+com\tonschary\bili\danmakuhelper\Gson\Bean\RoomInfoBean$RoomData.class
+com\tonschary\bili\danmakuhelper\Gson\transform\RoomInfoTsf.class
+com\tonschary\bili\danmakuhelper\HttpTool\RequestRoomInfo.class

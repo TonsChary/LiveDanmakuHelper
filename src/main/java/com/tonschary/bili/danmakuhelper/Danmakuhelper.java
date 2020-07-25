@@ -1,5 +1,6 @@
 package com.tonschary.bili.danmakuhelper;
 
+import com.tonschary.bili.danmakuhelper.Gson.transform.RoomInfoTsf;
 import com.tonschary.bili.danmakuhelper.HttpTool.RequestRoomInfo;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -7,6 +8,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.util.List;
 
 public final class Danmakuhelper extends JavaPlugin implements Listener {
 
@@ -37,9 +40,29 @@ public final class Danmakuhelper extends JavaPlugin implements Listener {
                             ChatColor.WHITE + "正在查询房间ID为 " + RoomID + " 的信息...");
                     //http请求查询数据
                     try {
-                        String getResult = RequestRoomInfo.getRoomInfo(RoomID);
-                        player.sendMessage(ChatColor.YELLOW + "[弹幕助手]" +
-                                ChatColor.WHITE + "房间信息如下：\n" + getResult);
+                        String getResult = RequestRoomInfo.getRoomInfo(RoomID);//获取JSON
+                        List<String> ResultList = RoomInfoTsf.getRoomInfoList(getResult);//解析JSON
+                        //遍历输出
+                        for(String result:ResultList){
+                            if(result.equalsIgnoreCase("Err")){     //解析JSON出错
+                                player.sendMessage(ChatColor.YELLOW + "[弹幕助手]" +
+                                        ChatColor.RED + "获取房间信息出错！");
+                                break;
+                            }//if end
+                            if(result.equalsIgnoreCase("60004")){   //房间不存在
+                                player.sendMessage(ChatColor.YELLOW + "[弹幕助手]" +
+                                        ChatColor.RED + "房间不存在！请检查ID是否正确");
+                                break;
+                            }//if end
+                            //发送正确信息
+                            if(result.equalsIgnoreCase("0")){       //状态正确
+                                player.sendMessage(ChatColor.YELLOW + "[弹幕助手]" +
+                                        ChatColor.WHITE + "房间信息如下：\n");
+                            }//if end
+                            //输出
+                            player.sendMessage(ChatColor.YELLOW + "[弹幕助手]" +
+                                    ChatColor.WHITE + result);
+                        }//Super-for end
                     }catch (Exception e){
                         player.sendMessage("获取房间信息出错！");
                     }//try-catch:GetRoomInfo end
